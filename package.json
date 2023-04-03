@@ -1,0 +1,35 @@
+{
+  "name": "telebot-utils",
+  "version": "0.0.1",
+  "description": "Useful utilities for TeleBot",
+  "main": "index.mjs",
+  "engines": {
+    "node": "^18.0.0"
+  },
+  "peerDependencies": {
+    "telebot": "latest"
+  },
+  "peerDependenciesMeta": {
+    "telebot": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PonomareVlad/telebot-utils.git"
+  },
+  "keywords": [
+    "Utils",
+    "TeleBot",
+    "Telegram",
+    "Bot",
+    "ESM"
+  ],
+  "author": "Vladislav Ponomarev <PonomareVlad@users.noreply.github.com> (https://PonomareVlad.ru)",
+  "funding": "https://PonomareVlad.ru/donate",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PonomareVlad/telebot-utils/issues"
+  },
+  "homepage": "https://github.com/PonomareVlad/telebot-utils#readme"
+}
