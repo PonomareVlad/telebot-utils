@@ -12,3 +12,124 @@ export const parseCommands = data => {
     }
     return data;
 }
+
+export const getSetName = (name = "", username = "") => `${name.replaceAll(" ", "_")}_by_${username}`;
+
+export const NewMethodsMixin = superClass => class extends superClass {
+
+    async get(field) {
+        const data = this.data ??= await this.getMe();
+        return field ? data[field] : data;
+    }
+
+    async uploadStickerFile(data = {user_id: 0}) {
+        const {
+            file,
+            buffer,
+            user_id,
+            filename = "sticker.tgs",
+            sticker_format = "animated",
+        } = data || {};
+        const value = buffer || file;
+        const form = {
+            user_id,
+            sticker_format,
+            sticker: {
+                value,
+                options: {
+                    filename
+                }
+            },
+        };
+        const {result} = await this.request("/uploadStickerFile", null, form);
+        return result;
+    }
+
+    async addStickerToSet(data = {user_id: 0, name: "", sticker: {sticker: "", emoji_list: ["🖼️"]}}) {
+        const {
+            name,
+            title,
+            user_id,
+            sticker = {},
+            username = this.username ??= await this.get("username"),
+        } = data || {};
+        const form = {
+            user_id,
+            sticker: JSON.stringify(sticker),
+            name: getSetName(name || title, username),
+        };
+        const {result} = await this.request("/addStickerToSet", form);
+        return result;
+    }
+
+    async setStickerPositionInSet(data = {sticker: "", position: 0}) {
+        const {
+            sticker,
+            position,
+        } = data || {};
+        const form = {
+            sticker,
+            position,
+        };
+        const {result} = await this.request("/setStickerPositionInSet", form);
+        return result;
+    }
+
+    async deleteStickerFromSet(data = {sticker: ""}) {
+        const {sticker} = data || {};
+        const form = {sticker};
+        const {result} = await this.request("/deleteStickerFromSet", form);
+        return result;
+    }
+
+    async createNewStickerSet(data = {user_id: 0, title: "", stickers: [{sticker: "", emoji_list: ["🖼️"]}]}) {
+        const {
+            name,
+            title,
+            user_id,
+            stickers = [],
+            needs_repainting = false,
+            sticker_format = "animated",
+            sticker_type = "custom_emoji",
+            username = this.username ??= await this.get("username"),
+        } = data || {};
+        const form = {
+            title,
+            user_id,
+            sticker_type,
+            sticker_format,
+            needs_repainting,
+            stickers: JSON.stringify(stickers),
+            name: getSetName(name || title, username),
+        };
+        const {result} = await this.request("/createNewStickerSet", form);
+        return result;
+    }
+
+    async getStickerSet(data = {title: ""}) {
+        const {
+            name,
+            title,
+            username = this.username ??= await this.get("username"),
+        } = data || {};
+        const form = {
+            name: getSetName(name || title, username),
+        };
+        const {result} = await this.request("/getStickerSet", form);
+        return result;
+    }
+
+    async deleteStickerSet(data = {title: ""}) {
+        const {
+            name,
+            title,
+            username = this.username ??= await this.get("username"),
+        } = data || {};
+        const form = {
+            name: getSetName(name || title, username),
+        };
+        const {result} = await this.request("/deleteStickerSet", form);
+        return result;
+    }
+
+}
