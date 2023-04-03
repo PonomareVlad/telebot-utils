@@ -13,6 +13,15 @@ export const parseCommands = data => {
     return data;
 }
 
+export function keyboardGrid(buttons = [], columns = 1) {
+    return buttons.reduce((rows, button) => {
+        const lastRow = rows.at(-1);
+        if (lastRow.length < columns) lastRow.push(button);
+        else rows.push([button]);
+        return rows;
+    }, [[]]);
+}
+
 export const getSetName = (name = "", username = "") => `${name.replaceAll(" ", "_")}_by_${username}`;
 
 export const NewMethodsMixin = superClass => class extends superClass {
