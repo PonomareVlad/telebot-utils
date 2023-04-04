@@ -141,4 +141,11 @@ export const NewMethodsMixin = superClass => class extends superClass {
         return result;
     }
 
+    async getCustomEmojiStickers(data = {custom_emoji_ids: [""]}) {
+        const {custom_emoji_ids = []} = data || {};
+        const form = {custom_emoji_ids};
+        const {result} = await this.request("/getCustomEmojiStickers", form);
+        return result;
+    }
+
 }
