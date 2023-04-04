@@ -148,4 +148,10 @@ export const NewMethodsMixin = superClass => class extends superClass {
         return result;
     }
 
+    async setMyCommands(data = {}) {
+        const toCommand = ([command, description]) => ({command, description});
+        const commands = JSON.stringify(Object.entries(data).map(toCommand));
+        return this.request('/setMyCommands', {commands});
+    }
+
 }
