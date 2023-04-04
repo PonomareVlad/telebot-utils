@@ -143,7 +143,7 @@ export const NewMethodsMixin = superClass => class extends superClass {
 
     async getCustomEmojiStickers(data = {custom_emoji_ids: [""]}) {
         const {custom_emoji_ids = []} = data || {};
-        const form = {custom_emoji_ids};
+        const form = {custom_emoji_ids: JSON.stringify(custom_emoji_ids)};
         const {result} = await this.request("/getCustomEmojiStickers", form);
         return result;
     }
